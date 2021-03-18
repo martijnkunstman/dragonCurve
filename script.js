@@ -1,8 +1,9 @@
 let width = 4000;
 let height = 4000;
-let scale = 20;
-let depth = 12;
-
+let scale = 15;
+let depth = 14;
+let xstart = width / 2 - 650;
+let ystart = height / 2 - 800;
 //----------------
 
 let curvePattern = [0];
@@ -16,15 +17,15 @@ function generateCurvePattern(itterations) {
   }
 }
 
+strokeW = 0.5;
+
 function setup() {
   generateCurvePattern(depth);
   createCanvas(width, height);
   strokeWeight(10);
   rect(0, 0, width, height);
-  let oldx = width / 2;
-  let oldy = height / 2;
-  let oldarcx = oldx;
-  let oldarcy = oldy;
+  let oldx = xstart;
+  let oldy = ystart;
   let direction = 0;
   let arrayPoints = [];
   arrayPoints.push({ x: oldx, y: oldy });
@@ -37,8 +38,6 @@ function setup() {
     let y = Math.round(
       oldy + scale * Math.sin((Math.PI * direction * 90) / 180.0)
     );
-    strokeWeight(0.5);
-    //line(oldx, oldy, x, y);
 
     oldx = x;
     oldy = y;
@@ -47,7 +46,14 @@ function setup() {
       arrayPoints.shift();
     }
 
-    strokeWeight(2);
+    if (i > curvePattern.length / 2) {
+      strokeW = strokeW + 0.00015;
+    }
+    else {
+      strokeW = strokeW + 0.00015;
+    }
+
+    strokeWeight(strokeW);
 
     if (arrayPoints.length == 3) {
       xx = (arrayPoints[0].x + arrayPoints[2].x) / 2;
@@ -96,13 +102,14 @@ function setup() {
           arc(xx, yy, scale, scale, 0, PI / 2);
         }
       }
-      //-----
     }
+
+
   }
 }
 
 const download = document.getElementById('download');
-download.addEventListener('click', function(e) {
+download.addEventListener('click', function (e) {
   var link = document.createElement('a');
   link.download = 'download.png';
   link.href = canvas.toDataURL()
