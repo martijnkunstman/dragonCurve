@@ -1,7 +1,7 @@
-let width = 800;
-let height = 800;
+let width = 4000;
+let height = 4000;
 let scale = 20;
-let depth = 8;
+let depth = 12;
 
 //----------------
 
@@ -19,6 +19,8 @@ function generateCurvePattern(itterations) {
 function setup() {
   generateCurvePattern(depth);
   createCanvas(width, height);
+  strokeWeight(10);
+  rect(0, 0, width, height);
   let oldx = width / 2;
   let oldy = height / 2;
   let oldarcx = oldx;
@@ -98,3 +100,12 @@ function setup() {
     }
   }
 }
+
+const download = document.getElementById('download');
+download.addEventListener('click', function(e) {
+  var link = document.createElement('a');
+  link.download = 'download.png';
+  link.href = canvas.toDataURL()
+  link.click();
+  link.delete;
+});
